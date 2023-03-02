@@ -4,8 +4,9 @@ const {
     validateQuantity,
     validateNumber,
     validateQuantityPatch} = require('../validation/validation');
-const {Product} = require('../models')
-const {User} = require('../models')
+const {Product,User,Images} = require('../models')
+
+const {deleteFile} = require('../aws/s3')
 
 const PostAllProducts = async (req,res) => {
     const response = req.body;
@@ -91,6 +92,7 @@ const PostAllProducts = async (req,res) => {
     }
     
 };
+
 
 const GetAllProducts = async (req,res) => { 
     const productId = req.params.productId;
@@ -334,7 +336,41 @@ const DeleteAllProducts = async (req,res) => {
 
     if(idError){
 
-       const productFound =  await Product.destroy({
+        const productFoundOne = await Product.findOne({
+            where: { id: productId},
+        }).catch((err) => {
+            if(err){
+                console.log(err);
+            }
+        });
+
+       if(productFoundOne != null){
+        const imagesFound = await Images.findAll({
+            where: { product_id: productId },
+        }).catch((err) => {
+            if(err){
+                console.log(err);
+            }
+        });
+
+        console.log(imagesFound);
+
+        if(imagesFound != null ){
+            console.log("Got Here")
+            await Images.destroy({
+                where: { product_id: productId },
+            }).catch((err) => {
+                if(err){
+                    console.log(err);
+                }
+            });
+        }   
+
+        for (const image of imagesFound) {
+            await deleteFile(image.file_name);
+        }
+
+        const productFound =  await Product.destroy({
             where: { id: productId },
         }).catch((err) => {
             if(err){
@@ -344,7 +380,7 @@ const DeleteAllProducts = async (req,res) => {
 
         res.status(200).send("Product is Deleted")
         console.log("//Delete"+ '\n' +  JSON.stringify(productFound) +  "is deleted")
-
+        }
 
     }else{
         res.status(404).send(error);

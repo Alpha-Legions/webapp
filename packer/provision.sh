@@ -4,18 +4,20 @@
 sudo yum update -y 
 
 #Installing mysql server
-sudo yum install -y https://dev.mysql.com/get/mysql80-community-release-el7-5.noarch.rpm
+# sudo yum install -y https://dev.mysql.com/get/mysql80-community-release-el7-5.noarch.rpm
 
-sudo yum install -y mysql-community-server
+# sudo yum install -y mysql-community-server
 
-sudo systemctl start mysqld
-sudo systemctl enable mysqld
+sudo yum install -y mysql
 
-passwords=$(sudo grep 'temporary password' /var/log/mysqld.log | awk {'print $13'})
+# sudo systemctl start mysqld
+# sudo systemctl enable mysqld
 
-mysql -u root -p$passwords --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Abhi@123';"
+# passwords=$(sudo grep 'temporary password' /var/log/mysqld.log | awk {'print $13'})
 
-mysql -u root -pAbhi@123 -e "create database menagerie;"
+# mysql -u root -p$passwords --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Abhi@123';"
+
+# mysql -u root -pAbhi@123 -e "create database menagerie;"
 
 
 # cmd to install node verson 16
@@ -29,29 +31,33 @@ node -e "console.log('Running Node.js ' + process.version)"
 cd /home/ec2-user/webapp
 npm install
 
+npm uninstall bcrypt
+
+npm i bcrypt
+
 cd ..
 sudo chmod 755 webapp
-touch webapp.service
-cat <<EOF >> webapp.service
-[Unit]
-Description=app.js - making your environment variables rad
-After=network.target
+# touch webapp.service
+# cat <<EOF >> webapp.service
+# [Unit]
+# Description=app.js - making your environment variables rad
+# After=network.target
 
-[Service]
-Type=simple
-User=ec2-user
-WorkingDirectory=/home/ec2-user/webapp
-ExecStart=/usr/bin/node /home/ec2-user/webapp/index.js
-Restart=on-failure
+# [Service]
+# Type=simple
+# User=ec2-user
+# WorkingDirectory=/home/ec2-user/webapp
+# ExecStart=/usr/bin/node /home/ec2-user/webapp/index.js
+# Restart=on-failure
 
-[Install]
-WantedBy=multi-user.target
-EOF
-sudo mv webapp.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl restart webapp.service
-sudo systemctl enable webapp.service
-sudo systemctl status webapp.service
+# [Install]
+# WantedBy=multi-user.target
+# EOF
+# sudo mv webapp.service /etc/systemd/system/
+# sudo systemctl daemon-reload
+# sudo systemctl restart webapp.service
+# sudo systemctl enable webapp.service
+# sudo systemctl status webapp.service
 
 
 # # webapp system service

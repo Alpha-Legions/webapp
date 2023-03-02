@@ -80,6 +80,23 @@ const checkResponseForPostProduct =  (response) =>{
 
 }
 
+const checkResponseForPostProductImage =  (response) =>{
+
+    const knownKeys = ['name', 'description', 'sku', 'manufacturer',"quantity"];
+    let isValid = false;    
+
+    Object.keys(response).forEach(key => {
+          if (!knownKeys.includes(key)){
+            isValid = false;
+          }else{
+            isValid = true;
+          }  
+        });
+
+        return isValid;
+
+}
+
 const validateQuantity =  (quantity) =>{
 
     if(isNaN(quantity)){

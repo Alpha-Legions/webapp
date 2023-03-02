@@ -4,6 +4,7 @@ const portfinder = require('portfinder');
 const bodyParser = require('body-parser');
 const usersRoutes = require('./routes/users');
 const productRoutes = require('./routes/product');
+const imageRoutes = require('./routes/images');
 const health = require('./health.js');
 
 const db = require('./models')
@@ -17,6 +18,8 @@ app.use(bodyParser.json());
 app.use('/v1',usersRoutes);
 
 app.use('/v1',productRoutes);
+
+app.use('/v1',imageRoutes);
 
 var PORT = 8000;
 

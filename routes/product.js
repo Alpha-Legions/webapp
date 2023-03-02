@@ -1,5 +1,5 @@
 const express = require('express');
-const { PostAllProducts, GetAllProducts,PutAllProducts,PatchAllProducts,DeleteAllProducts} = require("../controllers/productController");
+const { PostAllProducts, GetAllProducts,PutAllProducts,PatchAllProducts,DeleteAllProducts,PostAllProductImages} = require("../controllers/productController");
 
 const router = express.Router();
 
@@ -7,6 +7,7 @@ const productAuth = require("../auth/productAuth");
 
 // all routes should start with / as this is give / users in the index.js
 
+// Routes for Adding the product
 // //GET
 router.get("/product/:productId", GetAllProducts);
 
@@ -21,5 +22,8 @@ router.patch("/product/:productId",productAuth, PatchAllProducts);
 
 // //DELETE
 router.delete("/product/:productId",productAuth, DeleteAllProducts);
+
+
+
 
 module.exports = router;
