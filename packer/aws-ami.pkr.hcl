@@ -90,6 +90,6 @@ build {
   }
 
   provisioner "shell" {
-    script = "provision.sh"
+    script = "packer/provision.sh"
   }
 }
