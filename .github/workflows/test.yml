@@ -20,7 +20,7 @@ jobs:
         node-version: 14
     - name: Install dependencies
       run: |
-        npm install express aws mysql bcrypt body-parser jest supertest dotenv portfinder nodemon sequelize sequelize-cli mysql mysql2 path fs winston
+        npm install express aws mysql bcrypt node-statsd body-parser jest supertest dotenv portfinder nodemon sequelize sequelize-cli mysql mysql2 path fs winston
         npm i --save express-validator
     - name: Run unit tests
       run: |
