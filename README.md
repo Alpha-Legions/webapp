@@ -55,4 +55,4 @@ dotenv
 bcrypt
 fs
 Author
-Abhilash Gowdru Palakshappa
+Abhilash G P
